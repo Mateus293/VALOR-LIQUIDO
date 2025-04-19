@@ -1,0 +1,64 @@
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora Lucro Líquido em Apostas</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; background-color: #000; color: #fff; }
+        input, button { padding: 10px; margin: 5px 0; width: 100%; max-width: 300px; background-color: #222; color: #fff; border: 1px solid #d00; }
+        button { background-color: #d00; cursor: pointer; }
+        button:hover { background-color: #b00; }
+        .result { margin-top: 20px; padding: 10px; border: 1px solid #d00; }
+    </style>
+</head>
+<body>
+
+<h2>Calculadora Lucro Líquido em Apostas</h2>
+
+<label>Odd Time A:</label>
+<input type="number" step="0.01" id="oddA" value="1.75">
+
+<label>Odd Time B:</label>
+<input type="number" step="0.01" id="oddB" value="4.75">
+
+<label>Odd Empate (opcional):</label>
+<input type="number" step="0.01" id="oddEmpate" placeholder="Insira se houver">
+
+<label>Lucro Líquido Desejado (R$):</label>
+<input type="number" step="0.01" id="lucro" value="100">
+
+<button onclick="calcular()">Calcular</button>
+
+<div class="result" id="resultado"></div>
+
+<script>
+function calcular() {
+    const oddA = parseFloat(document.getElementById('oddA').value);
+    const oddB = parseFloat(document.getElementById('oddB').value);
+    const oddEmpate = parseFloat(document.getElementById('oddEmpate').value);
+    const lucro = parseFloat(document.getElementById('lucro').value);
+
+    const x = (lucro * (oddB - 1)) / (oddA + oddB - 2);
+    const y = (lucro * (oddA - 1)) / (oddA + oddB - 2);
+    const retorno = x * oddA;
+
+    const chanceA = (1 / oddA * 100).toFixed(2);
+    const chanceB = (1 / oddB * 100).toFixed(2);
+    let resultadoHTML = `Aposte R$ <strong>${x.toFixed(2)}</strong> no Time A (Chance: ${chanceA}%).<br>
+                         Aposte R$ <strong>${y.toFixed(2)}</strong> no Time B (Chance: ${chanceB}%).<br>
+                         Retorno garantido: <strong>R$ ${retorno.toFixed(2)}</strong><br>
+                         Lucro líquido garantido: <strong>R$ ${lucro.toFixed(2)}</strong>`;
+
+    if (!isNaN(oddEmpate) && oddEmpate > 0) {
+        const chanceEmpate = (1 / oddEmpate * 100).toFixed(2);
+        resultadoHTML += `<br>Chance de empate: <strong>${chanceEmpate}%</strong>`;
+    }
+
+    document.getElementById('resultado').innerHTML = resultadoHTML;
+}
+</script>
+
+</body>
+</html>
