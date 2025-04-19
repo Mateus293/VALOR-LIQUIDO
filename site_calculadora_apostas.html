@@ -1,0 +1,95 @@
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Calculadora de Apostas com Lucro Garantido</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #000;
+      color: #fff;
+      padding: 20px;
+    }
+    .container {
+      max-width: 600px;
+      margin: auto;
+      background-color: #111;
+      padding: 20px;
+      border-radius: 10px;
+      border: 1px solid #d00;
+    }
+    h1 {
+      text-align: center;
+      color: #d00;
+    }
+    input, button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      margin-bottom: 10px;
+      background-color: #222;
+      color: #fff;
+      border: 1px solid #d00;
+    }
+    button {
+      background-color: #d00;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #b00;
+    }
+    .result {
+      margin-top: 20px;
+      border-top: 1px solid #d00;
+      padding-top: 15px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Calculadora de Apostas</h1>
+    <label for="oddA">Odd do Time A:</label>
+    <input type="number" step="0.01" id="oddA" placeholder="Ex: 1.75" />
+
+    <label for="oddB">Odd do Time B:</label>
+    <input type="number" step="0.01" id="oddB" placeholder="Ex: 4.75" />
+
+    <label for="lucro">Lucro líquido desejado (R$):</label>
+    <input type="number" step="0.01" id="lucro" placeholder="Ex: 100" />
+
+    <button onclick="calcularLucro()">Calcular</button>
+
+    <div class="result" id="resultado"></div>
+  </div>
+
+  <script>
+    function calcularLucro() {
+      const oddA = parseFloat(document.getElementById("oddA").value);
+      const oddB = parseFloat(document.getElementById("oddB").value);
+      const lucro = parseFloat(document.getElementById("lucro").value);
+
+      if (!oddA || !oddB || !lucro || oddA <= 1 || oddB <= 1) {
+        document.getElementById("resultado").innerHTML =
+          "<p style='color: orange;'>Por favor, preencha todos os campos com valores válidos.</p>";
+        return;
+      }
+
+      const x = (lucro * (oddB - 1)) / (oddA + oddB - 2);
+      const y = (lucro * (oddA - 1)) / (oddA + oddB - 2);
+      const retorno = x * oddA;
+
+      const chanceA = (1 / oddA * 100).toFixed(2);
+      const chanceB = (1 / oddB * 100).toFixed(2);
+
+      document.getElementById("resultado").innerHTML = `
+        <p>Aposte <strong>R$ ${x.toFixed(2)}</strong> no Time A (Chance: ${chanceA}%)</p>
+        <p>Aposte <strong>R$ ${y.toFixed(2)}</strong> no Time B (Chance: ${chanceB}%)</p>
+        <p>Retorno garantido: <strong>R$ ${retorno.toFixed(2)}</strong></p>
+        <p>Lucro líquido garantido: <strong>R$ ${lucro.toFixed(2)}</strong></p>
+      `;
+    }
+  </script>
+</body>
+</html>
